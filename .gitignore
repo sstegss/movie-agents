@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.pytest_cache/
+data/ml-latest-small/
+data/*.sqlite*
+data/runtime/
+*.log
+app/gate/gate.pkl
+app/gate/train.jsonl

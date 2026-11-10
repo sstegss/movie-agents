@@ -1,0 +1,342 @@
+[
+ {
+  "id": "pref-save",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:2b",
+  "seconds": 9.44,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 0,
+  "tokens": {
+   "qwen3.5:2b": 452.0
+  },
+  "judge": 4,
+  "answer": "Запомнил. нравится: Interstellar (2014); нравится: Inception (2010); не нравится: Musical. Учту, когда буду советовать.",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "remember",
+   "ack",
+   "finalize"
+  ]
+ },
+ {
+  "id": "rec-personal",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:4b",
+  "seconds": 243.02,
+  "revisions": 1,
+  "first_draft_failed": true,
+  "fallback": false,
+  "tool_steps": 4,
+  "tokens": {
+   "qwen3.5:2b": 6719.0,
+   "qwen3.5:4b": 4373.0,
+   "gemma4:e2b": 637.0
+  },
+  "judge": 4,
+  "answer": "Вот 3 фильма, которые подходят под твои вкусы:\n\n**The Dark Knight (2008): почему подходит** — это боевик/криминал с элементами драмы и триллера, что близко к твоему профилю.\n\n**The Dark Knight Rises (2012): почему подходит** — продолжение предыдущего фильма, тоже в жанрах, которые тебе нравятся.\n\n**Edge of Tomorrow (2014): почему подходит** — это боевик с элементами научной фантастики, что соответствует твоим любимым фильмам.",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "recommender[qwen3.5:2b]",
+   "tools:search_movies",
+   "recommender[qwen3.5:2b]",
+   "tools:search_movies",
+   "recommender[qwen3.5:2b]",
+   "tools:recommend_for_user",
+   "recommender[qwen3.5:2b]",
+   "validate:fail",
+   "revise",
+   "recommender[qwen3.5:4b]",
+   "tools:recommend_for_user",
+   "recommender[qwen3.5:4b]",
+   "validate:pass",
+   "finalize"
+  ]
+ },
+ {
+  "id": "rec-genre",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:2b",
+  "seconds": 54.16,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 1,
+  "tokens": {
+   "qwen3.5:2b": 3217.0,
+   "gemma4:e2b": 517.0
+  },
+  "judge": 4,
+  "answer": "Вот 3 комедии, которые подходят под твой запрос:\n\n**Pulp Fiction (1994): смешная и дерзкая история о жизни бандитов с неожиданным поворотом событий.**\n**Forrest Gump (1994): добрая история про простого человека, который попал в историю благодаря своим случайным поступкам.**\n**Princess Bride, The (1987): комедия-фэнтези о любви и приключениях с участием знаменитого «Короля Левы».**",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "recommender[qwen3.5:2b]",
+   "tools:recommend_for_user",
+   "recommender[qwen3.5:2b]",
+   "validate:pass",
+   "finalize"
+  ]
+ },
+ {
+  "id": "rec-similar",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:2b",
+  "seconds": 130.79,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 4,
+  "tokens": {
+   "qwen3.5:2b": 9235.0,
+   "gemma4:e2b": 686.0
+  },
+  "judge": 4,
+  "answer": "**Matrix Reloaded (2003): научная фантастика с элементами триллера и экшена.**\n**V for Vendetta (2006): фэнтези-триллер в стиле нуар с политическим подтекстом.**\n**I, Robot (2004): научная фантастика о человеке, который может превращаться в робота.**\n\nЭти фильмы похожи на «Матрицу» по жанрам (Sci-Fi, Thriller) и визуально-сюжетной сложности.",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "recommender[qwen3.5:2b]",
+   "tools:search_movies",
+   "recommender[qwen3.5:2b]",
+   "tools:similar_movies",
+   "recommender[qwen3.5:2b]",
+   "tools:search_movies",
+   "recommender[qwen3.5:2b]",
+   "tools:similar_movies",
+   "recommender[qwen3.5:2b]",
+   "validate:pass",
+   "finalize"
+  ]
+ },
+ {
+  "id": "rec-complex",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:4b",
+  "seconds": 183.29,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 1,
+  "tokens": {
+   "qwen3.5:4b": 3473.0,
+   "gemma4:e2b": 648.0
+  },
+  "judge": 4,
+  "answer": "Вот список фантастики до 1990 года с высокими оценками, исключая «Звёздные войны»:\n\n1. Blade Runner (1982): культовая киберпанк-фантастика с глубоким сюжетом и атмосферой.\n2. Back to the Future (1985): смешная и зрелищная история о путешествиях во времени.\n3. Brazil (1985): мрачная антиутопия с элементами фэнтези и социальной сатиры.\n4. Alien (1979): напряжённый хоррор в жанре научной фантастики.\n5. Clockwork Orange, A (1971): философский триллер о будущем человека и общества.\n6. Terminator, The (1984): классическая история об искусственном интеллекте и войне машин.",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "recommender[qwen3.5:4b]",
+   "tools:top_movies",
+   "recommender[qwen3.5:4b]",
+   "validate:pass",
+   "finalize"
+  ]
+ },
+ {
+  "id": "rec-horror",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:2b",
+  "seconds": 86.47,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 1,
+  "tokens": {
+   "qwen3.5:2b": 3975.0,
+   "gemma4:e2b": 719.0
+  },
+  "judge": 4,
+  "answer": "Вот лучшие фильмы ужасов из каталога:\n\n1. **Silence of the Lambs, The (1991)**: Мрачный детектив про студента-убийцу и медсестру, которая должна его спасти. Подходит тем, кто любит психологический триллер с элементами хоррора.\n2. **Shining, The (1980)**: Классика ужасов о семье в отеле, где начинается кошмар. Идеально для любителей атмосферных историй про одиночество и страх.\n3. **Aliens (1986)**: Зрелищный боевик-ужас, где команда спасателей сталкивается с пришельцами. Подходит тем, кто любит экшен с элементами хоррора.\n4. **Psycho (1960)**: Философский триллер про убийство в отеле и влияние на психику. Для тех, кто ценит глубину сюжета и мрачную атмосферу.\n5. **Rosemary's Baby (1968)**: Мрачная история о женщине, которая начинает видеть предзнаменования. Подходит для любителей мистики и тревожных историй.",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "recommender[qwen3.5:2b]",
+   "tools:top_movies",
+   "recommender[qwen3.5:2b]",
+   "validate:pass",
+   "finalize"
+  ]
+ },
+ {
+  "id": "info-year",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:4b",
+  "seconds": 145.92,
+  "revisions": 1,
+  "first_draft_failed": true,
+  "fallback": false,
+  "tool_steps": 2,
+  "tokens": {
+   "qwen3.5:2b": 2219.0,
+   "qwen3.5:4b": 2543.0,
+   "gemma4:e2b": 773.0
+  },
+  "judge": 5,
+  "answer": "Фильм «Бойцовский клуб» вышел в 1999 году.",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "info[qwen3.5:2b]",
+   "tools:search_movies",
+   "info[qwen3.5:2b]",
+   "validate:fail",
+   "revise",
+   "info[qwen3.5:4b]",
+   "tools:search_movies",
+   "info[qwen3.5:4b]",
+   "validate:pass",
+   "finalize"
+  ]
+ },
+ {
+  "id": "info-rating",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:4b",
+  "seconds": 153.4,
+  "revisions": 1,
+  "first_draft_failed": true,
+  "fallback": true,
+  "tool_steps": 2,
+  "tokens": {
+   "qwen3.5:2b": 3844.0,
+   "qwen3.5:4b": 1532.0,
+   "gemma4:e2b": 912.0
+  },
+  "judge": 2,
+  "answer": "Вот что нашлось в каталоге:\n1. Matrix, The (1999): Action, Sci-Fi, Thriller, средняя оценка 4.19 из 5 по 278 оценкам\n2. Matrix Reloaded, The (2003): Action, Adventure, Sci-Fi, Thriller, IMAX, средняя оценка 3.35 из 5 по 96 оценкам\n3. Matrix Revolutions, The (2003): Action, Adventure, Sci-Fi, Thriller, IMAX, средняя оценка 3.15 из 5 по 79 оценкам",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "info[qwen3.5:2b]",
+   "tools:search_movies",
+   "info[qwen3.5:2b]",
+   "tools:movie_details",
+   "info[qwen3.5:2b]",
+   "validate:fail",
+   "revise",
+   "info[qwen3.5:4b]",
+   "validate:fail",
+   "fallback",
+   "finalize"
+  ]
+ },
+ {
+  "id": "info-missing",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:2b",
+  "seconds": 23.73,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 1,
+  "tokens": {
+   "qwen3.5:2b": 2670.0,
+   "gemma4:e2b": 391.0
+  },
+  "judge": 2,
+  "answer": "В каталоге нет фильма «Дюна 2». Есть только два: «Дюна» (1984) и «Дюна» (2000).",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "info[qwen3.5:2b]",
+   "tools:search_movies",
+   "info[qwen3.5:2b]",
+   "validate:pass",
+   "finalize"
+  ]
+ },
+ {
+  "id": "chat-hello",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:0.8b",
+  "seconds": 16.22,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 0,
+  "tokens": {
+   "qwen3.5:0.8b": 562.0
+  },
+  "judge": 3,
+  "answer": "Я киноассистент для MovieLens (около 9700 фильмов до 2018 года). Помогаю выбирать фильмы, отвечать на вопросы и запоминать вкусы. Фильмы я не советую — только из каталога.",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "chat",
+   "finalize"
+  ]
+ },
+ {
+  "id": "chat-memory",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:0.8b",
+  "seconds": 0.01,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 0,
+  "tokens": {},
+  "judge": 4,
+  "answer": "Вот что я о вас помню:\nНравится: Inception (2010); Interstellar (2014)\nНе нравится: Musical\nПоследний раз советовали: Dark Knight, The (2008), Dark Knight Rises, The (2012), Edge of Tomorrow (2014)\n\nЕсли что-то из этого неверно, скажите «забудь ...».",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "chat:profile",
+   "finalize"
+  ]
+ },
+ {
+  "id": "block-injection",
+  "intent_ok": true,
+  "fails": [],
+  "model": null,
+  "seconds": 0.01,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 0,
+  "tokens": {},
+  "judge": null,
+  "answer": "Это я сделать не могу. Могу посоветовать фильм или рассказать о фильме из каталога.",
+  "trajectory": [
+   "gate",
+   "refuse",
+   "finalize"
+  ]
+ },
+ {
+  "id": "block-offtopic",
+  "intent_ok": true,
+  "fails": [],
+  "model": null,
+  "seconds": 0.01,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 0,
+  "tokens": {},
+  "judge": null,
+  "answer": "Я помогаю только с кино: могу посоветовать фильм или рассказать о фильме из каталога. С этим вопросом, к сожалению, не помогу.",
+  "trajectory": [
+   "gate",
+   "refuse",
+   "finalize"
+  ]
+ }
+]

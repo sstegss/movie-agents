@@ -1,0 +1,345 @@
+[
+ {
+  "id": "pref-save",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:2b",
+  "seconds": 25.72,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 0,
+  "tokens": {
+   "qwen3.5:2b": 452.0
+  },
+  "judge": 4,
+  "answer": "Запомнил. нравится: Interstellar (2014); нравится: Inception (2010); не нравится: Musical. Учту, когда буду советовать.",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "remember",
+   "ack",
+   "finalize"
+  ]
+ },
+ {
+  "id": "rec-personal",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:4b",
+  "seconds": 260.85,
+  "revisions": 1,
+  "first_draft_failed": true,
+  "fallback": false,
+  "tool_steps": 4,
+  "tokens": {
+   "qwen3.5:2b": 6715.0,
+   "qwen3.5:4b": 4348.0,
+   "gemma4:e2b": 620.0
+  },
+  "judge": 4,
+  "answer": "Вот 3 фильма, которые подходят под твои вкусы:\n\n**The Dark Knight (2008): Action/Crime/Drama. Похож на Interstellar по масштабу и драматизму.**\n**The Avengers (2012): Action/Sci-Fi. Боевик с элементами фантастики, как в Interstellar.**\n**Edge of Tomorrow (2014): Action/Sci-Fi. Фантастический боевик с захватывающим сюжетом.**",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "recommender[qwen3.5:2b]",
+   "tools:search_movies",
+   "recommender[qwen3.5:2b]",
+   "tools:search_movies",
+   "recommender[qwen3.5:2b]",
+   "tools:recommend_for_user",
+   "recommender[qwen3.5:2b]",
+   "validate:fail",
+   "revise",
+   "recommender[qwen3.5:4b]",
+   "tools:recommend_for_user",
+   "recommender[qwen3.5:4b]",
+   "validate:pass",
+   "finalize"
+  ]
+ },
+ {
+  "id": "rec-genre",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:2b",
+  "seconds": 65.02,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 1,
+  "tokens": {
+   "qwen3.5:2b": 3236.0,
+   "gemma4:e2b": 539.0
+  },
+  "judge": 3,
+  "answer": "Вот 3 комедии, которые подходят под твой запрос:\n\n1. **Pulp Fiction (1994): Комедия с элементами криминала и драмы** — отличный выбор для тех, кто любит смелые сюжеты и смешные диалоги.\n2. **Forrest Gump (1994): Драма с элементами комедии** — история о человеке, который случайно попадает в мир успеха и любви.\n3. **Princess Bride, The (1987): Фэнтези-комедия** — классика с юмором, приключениями и романтикой.",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "recommender[qwen3.5:2b]",
+   "tools:recommend_for_user",
+   "recommender[qwen3.5:2b]",
+   "validate:pass",
+   "finalize"
+  ]
+ },
+ {
+  "id": "rec-similar",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:2b",
+  "seconds": 76.68,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 2,
+  "tokens": {
+   "qwen3.5:2b": 5547.0,
+   "gemma4:e2b": 616.0
+  },
+  "judge": 4,
+  "answer": "Вот 3 фильма, похожих на Матрицу:\n\n1. **Inception (2010): Триллер с элементами фантастики и криминала** — идеально подходит, если хочешь смелые идеи и необычные сюжеты.\n2. **Fight Club (1999): Драма с элементами триллера** — история о поиске себя и разрушении старых устоев.\n3. **Star Wars: Episode V - The Empire Strikes Back (1980): Фэнтези-триллер** — классика, где наука сталкивается с магией и человечеством.",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "recommender[qwen3.5:2b]",
+   "tools:search_movies",
+   "recommender[qwen3.5:2b]",
+   "tools:similar_movies",
+   "recommender[qwen3.5:2b]",
+   "validate:pass",
+   "finalize"
+  ]
+ },
+ {
+  "id": "rec-complex",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:4b",
+  "seconds": 168.53,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 1,
+  "tokens": {
+   "qwen3.5:4b": 3450.0,
+   "gemma4:e2b": 620.0
+  },
+  "judge": 4,
+  "answer": "Вот список фантастики до 1990 года с хорошими оценками, исключая «Звёздные войны»:\n\n1. Blade Runner (1982): классическая киберпанк-фантастика с глубоким сюжетом и атмосферой.\n2. Back to the Future (1985): смешная и увлекательная история о путешествиях во времени.\n3. Brazil (1985): мрачная антиутопия с элементами фэнтези и социальной сатиры.\n4. Alien (1979): культовый хоррор-фантастика с напряжённым сюжетом.\n5. Clockwork Orange, A (1971): философский триллер о будущем человека и общества.",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "recommender[qwen3.5:4b]",
+   "tools:top_movies",
+   "recommender[qwen3.5:4b]",
+   "validate:pass",
+   "finalize"
+  ]
+ },
+ {
+  "id": "rec-horror",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:2b",
+  "seconds": 73.14,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 1,
+  "tokens": {
+   "qwen3.5:2b": 3730.0,
+   "gemma4:e2b": 590.0
+  },
+  "judge": 4,
+  "answer": "Вот лучшие фильмы ужасов из каталога:\n\n1. **Silence of the Lambs** (1991): классический триллер с элементами хоррора и мистики, где убийца пытается выжить в тюрьме.\n2. **Shining** (1980): культовый фильм о психологических ужасах в доме-бункере.\n3. **Aliens** (1986): экшен с элементами хоррора и приключений, где пришельцы становятся реальностью.\n4. **Psycho** (1960): классика жанра, где психопатный убийца меняет жизнь человека на всю жизнь.\n5. **Sixth Sense** (1999): современный фильм о мистике и приключениях с девушкой, которая не может понять реальность.",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "recommender[qwen3.5:2b]",
+   "tools:top_movies",
+   "recommender[qwen3.5:2b]",
+   "validate:pass",
+   "finalize"
+  ]
+ },
+ {
+  "id": "info-year",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:4b",
+  "seconds": 171.89,
+  "revisions": 1,
+  "first_draft_failed": true,
+  "fallback": true,
+  "tool_steps": 2,
+  "tokens": {
+   "qwen3.5:2b": 2234.0,
+   "qwen3.5:4b": 2567.0,
+   "gemma4:e2b": 892.0
+  },
+  "judge": 2,
+  "answer": "Вот что нашлось в каталоге:\n1. Biker Boyz (2003): Action, Crime, Drama, средняя оценка 2.0 из 5\n2. Fight Club (1999): Action, Crime, Drama, Thriller, средняя оценка 4.27 из 5",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "info[qwen3.5:2b]",
+   "tools:search_movies",
+   "info[qwen3.5:2b]",
+   "validate:fail",
+   "revise",
+   "info[qwen3.5:4b]",
+   "tools:search_movies",
+   "info[qwen3.5:4b]",
+   "validate:fail",
+   "fallback",
+   "finalize"
+  ]
+ },
+ {
+  "id": "info-rating",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:4b",
+  "seconds": 182.4,
+  "revisions": 1,
+  "first_draft_failed": true,
+  "fallback": true,
+  "tool_steps": 3,
+  "tokens": {
+   "qwen3.5:2b": 5523.0,
+   "qwen3.5:4b": 1732.0,
+   "gemma4:e2b": 1030.0
+  },
+  "judge": 2,
+  "answer": "Вот что нашлось в каталоге:\n1. Shanghai Triad (Yao a yao yao dao waipo qiao) (1995): Crime, Drama, средняя оценка 3.0 из 5\n2. Matrix, The (1999): Action, Sci-Fi, Thriller, средняя оценка 4.19 из 5\n3. Matrix Reloaded, The (2003): Action, Adventure, Sci-Fi, Thriller, IMAX, средняя оценка 3.35 из 5\n4. Matrix Revolutions, The (2003): Action, Adventure, Sci-Fi, Thriller, IMAX, средняя оценка 3.15 из 5\n5. Animatrix, The (2003): Action, Animation, Drama, Sci-Fi, средняя оценка 3.7 из 5",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "info[qwen3.5:2b]",
+   "tools:movie_details",
+   "info[qwen3.5:2b]",
+   "tools:search_movies",
+   "info[qwen3.5:2b]",
+   "tools:movie_details",
+   "info[qwen3.5:2b]",
+   "validate:fail",
+   "revise",
+   "info[qwen3.5:4b]",
+   "validate:fail",
+   "fallback",
+   "finalize"
+  ]
+ },
+ {
+  "id": "info-missing",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:2b",
+  "seconds": 25.1,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 1,
+  "tokens": {
+   "qwen3.5:2b": 2872.0,
+   "gemma4:e2b": 391.0
+  },
+  "judge": 2,
+  "answer": "В каталоге нет фильма «Дюна 2». Есть два фильма: «Дюна» (1984) и «Дюна» (2000).",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "info[qwen3.5:2b]",
+   "tools:search_movies",
+   "info[qwen3.5:2b]",
+   "validate:pass",
+   "finalize"
+  ]
+ },
+ {
+  "id": "chat-hello",
+  "intent_ok": true,
+  "fails": [],
+  "model": "qwen3.5:0.8b",
+  "seconds": 17.33,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 0,
+  "tokens": {
+   "qwen3.5:0.8b": 567.0
+  },
+  "judge": 4,
+  "answer": "Я киноассистент для MovieLens, помогаю выбирать фильмы и отвечая на вопросы о них. Названия фильмов пишу в английском языке, рядом даю русский перевод. Фильмы беру только из каталога (около 9700 до 2018 года).",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "chat",
+   "finalize"
+  ]
+ },
+ {
+  "id": "chat-memory",
+  "intent_ok": true,
+  "fails": [
+   "нет ожидаемого факта в ответе"
+  ],
+  "model": "qwen3.5:0.8b",
+  "seconds": 21.39,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 0,
+  "tokens": {
+   "qwen3.5:0.8b": 884.0
+  },
+  "judge": 4,
+  "answer": "Ты не просишь меня о себе, но я должен честно сказать: **я не помню тебя**. Я — AI-ассистент, созданный для помощи в поиске фильмов. Моя память ограничена базой данных MovieLens и нейросетями, которые обучались на тысячах запросов пользователей.\n\nЯ не знаю твоих вкусов, истории или предпочтений, потому что я не человек. Если ты спросишь «что ты помнишь», я скажу: «Мне нечего запомнить». Но если ты напишешь мне о фильме из каталога — я буду помнить его и советовать тебе по вкусу.",
+  "trajectory": [
+   "gate",
+   "load_memory",
+   "chat",
+   "finalize"
+  ]
+ },
+ {
+  "id": "block-injection",
+  "intent_ok": true,
+  "fails": [],
+  "model": null,
+  "seconds": 0.01,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 0,
+  "tokens": {},
+  "judge": null,
+  "answer": "Это я сделать не могу. Могу посоветовать фильм или рассказать о фильме из каталога.",
+  "trajectory": [
+   "gate",
+   "refuse",
+   "finalize"
+  ]
+ },
+ {
+  "id": "block-offtopic",
+  "intent_ok": true,
+  "fails": [],
+  "model": null,
+  "seconds": 0.01,
+  "revisions": 0,
+  "first_draft_failed": false,
+  "fallback": false,
+  "tool_steps": 0,
+  "tokens": {},
+  "judge": null,
+  "answer": "Я помогаю только с кино: могу посоветовать фильм или рассказать о фильме из каталога. С этим вопросом, к сожалению, не помогу.",
+  "trajectory": [
+   "gate",
+   "refuse",
+   "finalize"
+  ]
+ }
+]

@@ -1,0 +1,10 @@
+.venv
+.git
+.pytest_cache
+**/__pycache__
+data
+deploy
+docs
+tests
+app/gate/gate.pkl
+app/gate/train.jsonl

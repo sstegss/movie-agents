@@ -1,0 +1,158 @@
+# Киноассистент и его окружение.
+#
+# Сети:
+#   agents  - внутренняя (internal: true), без выхода в интернет. Здесь
+#             живут агент, Ollama, Phoenix и Prometheus.
+#   observe - обычная сеть для интерфейсов наблюдаемости, порты
+#             опубликованы только на 127.0.0.1.
+# Агент подключён только к agents. Встроенный DNS докера под gVisor не
+# работает (он сделан через iptables в сетевом пространстве контейнера,
+# а у gVisor свой сетевой стек), поэтому соседи прописаны агенту по IP.
+
+name: movie-agents
+
+x-hosts: &agent-hosts
+  - "ollama:172.28.0.10"
+  - "phoenix:172.28.0.30"
+
+networks:
+  agents:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24
+  observe:
+    ipam:
+      config:
+        - subnet: 172.29.0.0/24
+
+volumes:
+  agent-data:
+  phoenix-data:
+  prometheus-data:
+  grafana-data:
+  alerts:
+
+services:
+  agent:
+    build: .
+    image: movie-agents:latest
+    runtime: runsc            # gVisor: системные вызовы перехватывает его собственное ядро
+    user: "10001"
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m
+    volumes:
+      - agent-data:/data      # только память агента (SQLite)
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 256
+    mem_limit: 2g
+    cpus: 2
+    environment:
+      OLLAMA_URL: http://ollama:11434
+      PHOENIX_COLLECTOR_ENDPOINT: http://phoenix:6006/v1/traces
+      LOG_LEVEL: INFO
+    extra_hosts: *agent-hosts
+    networks:
+      agents:
+        ipv4_address: 172.28.0.20
+    depends_on:
+      ollama:
+        condition: service_started
+      phoenix:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:0.40.7
+    # Движок инференса считаем доверенным и запускаем на runc ради скорости:
+    # недоверенный код (решения LLM) исполняется в агенте, а не здесь.
+    volumes:
+      # Модели, уже скачанные на хосте. Только чтение: из контейнера их не испортить.
+      - ${OLLAMA_MODELS_DIR:-/var/lib/ollama}:/models:ro
+    environment:
+      OLLAMA_MODELS: /models
+      OLLAMA_NOPRUNE: "1"
+      OLLAMA_MAX_LOADED_MODELS: "2"
+      OLLAMA_KEEP_ALIVE: 10m
+    networks:
+      agents:
+        ipv4_address: 172.28.0.10
+    restart: unless-stopped
+
+  phoenix:
+    image: arizephoenix/phoenix:version-21.0.0-nonroot
+    environment:
+      PHOENIX_WORKING_DIR: /phoenix
+      # Локальный стенд на одного человека: UI открыт только на 127.0.0.1,
+      # трейсы приходят из внутренней сети. В проде включить авторизацию
+      # и передать агенту PHOENIX_API_KEY.
+      PHOENIX_ENABLE_AUTH: "false"
+    volumes:
+      - phoenix-data:/phoenix
+    ports:
+      - "127.0.0.1:6006:6006"
+    networks:
+      agents:
+        ipv4_address: 172.28.0.30
+      observe:
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v3.16.0
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=15d
+    volumes:
+      - ./deploy/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./deploy/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "127.0.0.1:9090:9090"
+    networks:
+      agents:
+        ipv4_address: 172.28.0.40
+      observe:
+    restart: unless-stopped
+
+  alertmanager:
+    image: prom/alertmanager:v0.35.0
+    volumes:
+      - ./deploy/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    ports:
+      - "127.0.0.1:9093:9093"
+    networks: [observe]
+    restart: unless-stopped
+
+  # Куда прилетают алерты: пишет их в лог и в файл /alerts/alerts.jsonl.
+  alert-sink:
+    image: python:3.12.16-slim
+    command: ["python", "/sink/alert_sink.py"]
+    volumes:
+      - ./deploy/alert_sink.py:/sink/alert_sink.py:ro
+      - alerts:/alerts
+    networks: [observe]
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:13.2.6
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+    volumes:
+      - ./deploy/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./deploy/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    ports:
+      - "127.0.0.1:3000:3000"
+    networks: [observe]
+    restart: unless-stopped
