@@ -175,7 +175,7 @@ TRAIN = [
 
 def main():
     out = Path(__file__).with_name("train.jsonl")
-    with out.open("w") as f:
+    with out.open("w", encoding="utf-8") as f:
         for text, intent, complexity, pref in TRAIN:
             f.write(json.dumps({"text": text, "intent": intent, "complexity": complexity, "pref": pref}, ensure_ascii=False) + "\n")
     print(f"{len(TRAIN)} примеров -> {out}")

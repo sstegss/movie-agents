@@ -68,5 +68,5 @@ def build():
 
 
 out = Path(__file__).with_name("dashboards") / "movie-agents.json"
-out.write_text(json.dumps(build(), ensure_ascii=False, indent=1))
+out.write_text(json.dumps(build(), ensure_ascii=False, indent=1), encoding="utf-8")
 print(out)

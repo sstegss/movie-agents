@@ -73,8 +73,8 @@ def main():
     for r, p in zip(rows, y_pred):
         if r["intent"] != p:
             lines.append(f"- «{r['text']}»: правда {r['intent']}, модель {p}")
-    OUT.write_text("\n".join(lines) + "\n")
-    print(OUT.read_text())
+    OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(OUT.read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

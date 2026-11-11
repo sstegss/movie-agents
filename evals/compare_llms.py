@@ -234,8 +234,8 @@ def main():
     p.add_argument("--render-only", action="store_true", help="пересобрать таблицу из сохранённого JSON")
     args = p.parse_args()
     if args.render_only:
-        OUT.write_text(render(json.loads(OUT.with_suffix(".json").read_text())))
-        print(OUT.read_text())
+        OUT.write_text(render(json.loads(OUT.with_suffix(".json").read_text(encoding="utf-8"))), encoding="utf-8")
+        print(OUT.read_text(encoding="utf-8"))
         return
     catalog = get_catalog()
     rows = []
@@ -243,9 +243,9 @@ def main():
         print(f"== {m}", flush=True)
         rows.append(evaluate(m, catalog))
         print(json.dumps(rows[-1], ensure_ascii=False), flush=True)
-        (OUT.with_suffix(".json")).write_text(json.dumps(rows, ensure_ascii=False, indent=1))
-        OUT.write_text(render(rows))
-    print(OUT.read_text())
+        (OUT.with_suffix(".json")).write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
+        OUT.write_text(render(rows), encoding="utf-8")
+    print(OUT.read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

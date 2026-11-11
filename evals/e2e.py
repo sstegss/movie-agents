@@ -97,7 +97,7 @@ def run_checks(sc: dict, r: dict, catalog) -> list[str]:
 
 def main():
     catalog = get_catalog()
-    scenarios = [json.loads(l) for l in (ROOT / "datasets" / "scenarios.jsonl").read_text().splitlines() if l.strip()]
+    scenarios = [json.loads(l) for l in (ROOT / "datasets" / "scenarios.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
     rows = []
     for sc in scenarios:
         before = tokens_by_model()
@@ -160,9 +160,9 @@ def main():
     lines += ["", "## Ответы", ""]
     for r in rows:
         lines += [f"**{r['id']}** ({' -> '.join(r['trajectory'])})", "", "> " + r["answer"].replace("\n", "\n> "), ""]
-    OUT.write_text("\n".join(lines) + "\n")
-    (OUT.with_suffix(".json")).write_text(json.dumps(rows, ensure_ascii=False, indent=1))
-    print(OUT.read_text())
+    OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (OUT.with_suffix(".json")).write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(OUT.read_text(encoding="utf-8"))
     shutil.rmtree(_tmp, ignore_errors=True)
 
 

@@ -36,12 +36,12 @@ class Skill:
         for ref in self.references:
             ref_path = self.path.parent / ref
             if ref_path.exists():
-                parts.append(ref_path.read_text().strip())
+                parts.append(ref_path.read_text(encoding="utf-8").strip())
         return "\n\n".join(parts)
 
 
 def parse_skill(path: Path) -> Skill:
-    text = path.read_text()
+    text = path.read_text(encoding="utf-8")
     if not text.startswith("---"):
         raise ValueError(f"{path}: нет заголовка YAML")
     _, header, body = text.split("---", 2)
@@ -81,7 +81,7 @@ def skills_index() -> str:
 
 @lru_cache(maxsize=16)
 def _read(name: str) -> str:
-    return (settings.agent_dir / name).read_text().strip()
+    return (settings.agent_dir / name).read_text(encoding="utf-8").strip()
 
 
 def system_prompt(agent: str, profile_text: str = "", extra: str = "") -> str:
