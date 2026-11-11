@@ -80,7 +80,7 @@ graph TD;
 	fallback --> finalize;
 	finalize --> __end__;
 	classDef first fill-opacity:0
-	classDef last fill:#bfb6fc
+	classDef last fill:#bfb6fc,color:#1a1a1a,stroke:#7c6fd6
 ```
 
 ## 1. System Landscape
